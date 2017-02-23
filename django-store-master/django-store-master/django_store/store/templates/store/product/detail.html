@@ -1,0 +1,25 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if category %}{{ category.title }}{% else %}مشخصات، قیمت و خرید{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+    <img src="{% if product.image %}
+    {{ product.image.url }}
+    {% else %}
+    {% static 'img/no_image.png' %}
+    {% endif %}" style="width: 480px;height:334px ">
+    <h1>{{ product.name }}</h1>
+    <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+    <p class="price"> ريال {{ product.price }}</p>
+    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+        {{ cart_product_form }}
+        {% csrf_token %}
+        <input type="submit" value="افزودن به سبد خرید" class="btn btn-success">
+    </form>
+   <div style="text-align: center;">{{ product.description|safe }}</div>
+</div>
+{% endblock %}

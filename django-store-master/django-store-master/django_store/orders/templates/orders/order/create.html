@@ -1,0 +1,30 @@
+{% extends "store/base.html" %}
+
+{% block title %}
+    ثبت نام کاربر
+{% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center">مشخصات کاربری خود را وارد نمایید</h1>
+    <div class="order-info" style="margin-right: 15px;">
+        <h3>سفارش شما</h3>
+        <ul>
+            {% for item in cart %}
+                <li>
+                {{ item.quantity }} x {{ item.product.name }}
+                <span> ريال {{ item.total_price }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>مجموع: ريال {{ cart.get_total_price }}</p>
+    </div>
+
+    <form action="." method="post" class="order-form" style="padding-left: 450px" >
+      {{ form.as_p }}
+        <p style="text-align: center"><input type="submit" value="ثبت" class="btn btn-primary"></p>
+        {% csrf_token %}
+    </form>
+
+{% endblock %}
+
+

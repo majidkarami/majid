@@ -1,0 +1,61 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block title %}
+    سبد خرید شما
+{% endblock %}
+
+{% block content %}
+    <h2 class= "text-justify " style="text-align: center">سبد خرید شما</h2>
+    <table class="cart">
+        <thead>
+            <tr style="text-align: center;">
+                <th style="background-color: #0f0f0f;text-align: center">تصویر</th>
+                <th style="background-color: #0f0f0f">محصول</th>
+                <th style="background-color: #0f0f0f">مقدار</th>
+                <th style="background-color: #0f0f0f">حذف</th>
+                <th style="background-color: #0f0f0f">قیمت واحد</th>
+                <th style="background-color: #0f0f0f">قیمت</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+                {% with product=item.product %}
+                <tr>
+                    <td>
+                        <a href="{{ product.get_absolute_url }}">
+                        <img src="{% if product.image %}
+                        {{ product.image.url }}
+                        {% else %}
+                        {% static 'img/no_image.png' %}
+                        {% endif %}" style="width: 250px;height: 173px;"></a>
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>
+                        <form action="{% url 'cart:cart_add' product.id %}" method="post" >
+                            {{ item.update_quantity_form.quantity }}
+                            {{ item.update_quantity_form.update }}
+                            <input type="submit" value="ویرایش" class="btn btn-success ">
+                            {% csrf_token %}
+                        </form>
+                    </td>
+                    <td>
+                        <a href="{% url 'cart:cart_remove' product.id %}" class="btn btn-danger ">حذف</a>
+                    </td>
+                    <td style="text-align: center"> ريال {{ item.price }}</td>
+                    <td style="text-align: center"> ريال {{ item.total_price }}</td>
+                </tr>
+                {% endwith %}
+            {% endfor %}
+            <tr class="total">
+                <td style="background-color: #0f0f0f;text-align: right">مجموع</td>
+                <td style="background-color: #0f0f0f">ريال {{ cart.get_total_price }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="text-right">
+        <a href="{% url 'store:product_list' %}" class="btn btn-primary ">ادامه سفارش</a>
+        <span>
+            <a href="{% url 'orders:order_create' %}"  class="btn btn-success " >ثبت نام در شاپینگ</a>
+        </span>
+    </p>
+{% endblock %}

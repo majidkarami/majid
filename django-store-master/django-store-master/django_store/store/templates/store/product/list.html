@@ -1,0 +1,61 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% load static i18n %}
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}فروشگاه اینترنتی شاپینگ{% endif %}
+{% endblock %}
+
+<div>
+{% block content %}
+<div style="border: solid 3px cornflowerblue;border-radius: 1em 4em 1em 4em;text-align: center;background-color: cornflowerblue;font-size: 14px;">
+    <h2> فروشگاه اینترنتی شاپینگ  </h2>
+        <p>
+            این روزها لپ تاپ ها مهم ترین دریچه میان ما و جهان مدرن هستند و بخش لپ تاپ  مطمئن ترین رویکرد خرید اینترنتی برای تمام کاربران ایرانی است. شما می توانید متناسب با نیازهای روزمره و با استفاده از فیلترهایی چون ظرفیت RAM، ظرفیت حافظه داخلی، اندازه صفحه نمایش، سری پردازنده و سیستم عامل یا با استفاده از طبقه بندی صنعتی، بازی، مالتی مدیا، عمومی و ... دست به انتخاب بزنید. همچون دیگر بخش های کالای دیجیتال دیجی کالا، در این بخش نیز شما می توانید به کمک نقد و بررسی های موجود برای هر محصول دست به بهترین انتخاب ممکن بزنید. سرشناس ترین تولید کنندگان لپ تاپ همچون اپل (Apple)، ایسوس (Asus)، لنوو (Lenovo)، ام اس آی (MSI)، اچ پی (HP)، دل (Dell) گرد هم آمده اند تا محصولاتی چون مک بوک (MacBook)، زن بوک (ZenBook)، کروم بوک (Chromebook) و... را با بیشترین تنوع ممکن در اختیار شما قرار دهند. همچون همیشه در هر کجای ایران که هستید خرید اینترنتی شما در کوتاه ترین زمان ممکن تحویل خواهد شد.
+    </p>
+</div>
+
+<div class="col-sm-offset-10 sidebar-offcanvas" id="sidebar" style="margin-top: 70px;">
+    <div class="list-group" >
+    <ul>
+        <li {% if not category %}{% endif %}>
+    <center><a class="list-group-item active" style="background-color: black; border-radius: 1em 4em 1em 4em"  href="{% url 'store:product_list' %}"><b>لیست محصولات</b></a>
+            </center>
+        </li>
+        {% for c in categories %}
+            <li {% if category.slug == c.slug %}class="selected"{% endif %}>
+                <center>
+                <a class="list-group-item active" style="background-color: black; border-radius: 4em 1em 4em 1em" href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                </center>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+</div>
+
+    <div class="row" style="margin-top: -400px; padding-left: 55px;">
+        <div class="col-xs-9 col-lg-10">
+    <div id="main" class="product-list">
+        <h1>{% if category %}{{ category.name }}
+            <img src="{%static 'img/b.gif' %}" alt="Smiley face" height="66" width="55">
+            {% else %}{% endif %}
+         <img src="{%static 'img/a.gif' %}" alt="Smiley face" height="66" width="55">
+
+        </h1>
+        {% for product in products %}
+            <div class="item">
+                <a href="{{ product.get_absolute_url }}">
+                <img src="{% if product.image %}
+                {{ product.image.url }}
+                {% else %}
+                {% static 'img/no_image.png' %}
+                {% endif %}" style="width:200px;height:140px;">
+                </a>
+                <a class="btn btn-default pull-left"  href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+                ريال {{ product.price }}
+            </div>
+        {% endfor %}
+    </div>
+        </div>
+    </div>
+{% endblock %}
+</div>

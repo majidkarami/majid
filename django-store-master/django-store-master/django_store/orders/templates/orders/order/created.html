@@ -1,0 +1,17 @@
+{% extends "store/base.html" %}
+
+{% block title %}
+    با تشکر
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center">
+    <h2>سفارش شما با موفقیت ثبت شده است</h2>
+    <p>  شماره سفارش  :<strong> {{ order.id }} </strong></p>
+</div>
+<div style="text-align: center">
+    <h3>پرداخت از درگاه اینترنتی</h3>
+    <a href="https://sadad.shaparak.ir" style="color: black;" class="btn btn-success ">پرداخت</a>
+</div>
+
+{% endblock %}
